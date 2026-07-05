@@ -27,7 +27,9 @@
 		</div>
 
 		{#if item.detailedMarkdown}
-			<div class="prose prose-invert prose-emerald max-w-none text-body-lg text-on-surface-variant marker:text-primary prose-a:text-primary prose-headings:text-on-surface prose-pre:bg-surface-container-highest prose-pre:border prose-pre:border-outline-variant/30">
+			<div
+				class="prose prose-invert prose-emerald max-w-none text-body-lg text-on-surface-variant marker:text-primary prose-a:text-primary prose-headings:text-on-surface prose-pre:bg-surface-container-highest prose-pre:border prose-pre:border-outline-variant/30"
+			>
 				{@html htmlContent}
 			</div>
 		{:else if item.definition}
