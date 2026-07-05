@@ -1,0 +1,3 @@
+{
+	"rewrites": [{ "source": "/", "destination": "/DSA_Tracker.html" }]
+}

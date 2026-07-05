@@ -1,0 +1,600 @@
+====================================================
+SOFTWARE ENGINEER INTERVIEW ROADMAP (NON-DSA)
+For FAANG / Big Tech / Product Companies
+====================================================
+
+1. COMPUTER SCIENCE FUNDAMENTALS
+--------------------------------
+Operating Systems (OS)
+□ Processes vs Threads
+□ Process Scheduling
+□ Context Switching
+□ Synchronization
+□ Mutex & Semaphore
+□ Deadlocks
+□ Memory Management
+□ Virtual Memory
+□ Paging & Segmentation
+□ CPU Scheduling
+□ File Systems
+□ System Calls
+
+Computer Networks (CN)
+□ OSI Model
+□ TCP/IP Model
+□ HTTP/HTTPS
+□ HTTP Methods
+□ HTTP Status Codes
+□ TCP vs UDP
+□ DNS
+□ CDN
+□ Reverse Proxy
+□ Load Balancer
+□ SSL/TLS
+□ WebSockets
+□ REST APIs
+□ GraphQL Basics
+□ gRPC Basics
+□ Cookies vs Sessions
+□ CORS
+
+Computer Architecture
+□ CPU
+□ Registers
+□ Cache Memory
+□ RAM
+□ Instruction Cycle
+□ Multi-Core Processing
+□ NUMA Basics
+
+--------------------------------
+
+2. DATABASES
+------------
+
+SQL
+□ CRUD
+□ Constraints
+□ Primary & Foreign Keys
+□ Indexes
+□ Clustered vs Non-Clustered Index
+□ Composite Index
+□ Covering Index
+□ Execution Plan
+□ Query Optimization
+□ Transactions
+□ ACID
+□ Isolation Levels
+□ Locks
+□ Deadlocks
+□ Joins
+□ GROUP BY
+□ HAVING
+□ ORDER BY
+□ Aggregate Functions
+□ Window Functions
+□ CTE
+□ Recursive CTE
+□ Subqueries
+□ Views
+□ Stored Procedures
+□ Triggers
+□ Normalization
+□ Denormalization
+
+NoSQL
+□ MongoDB
+□ Document Database
+□ Key-Value Store
+□ Column Database
+□ Graph Database
+□ CAP Theorem
+□ BASE
+□ Replication
+□ Sharding
+□ Partitioning
+
+Database Design
+□ ER Diagram
+□ One-to-One
+□ One-to-Many
+□ Many-to-Many
+□ Constraints
+□ Schema Design
+□ Data Modeling
+
+--------------------------------
+
+3. OBJECT ORIENTED PROGRAMMING
+------------------------------
+
+□ SOLID Principles
+□ Encapsulation
+□ Abstraction
+□ Inheritance
+□ Polymorphism
+□ Composition vs Inheritance
+□ Interface
+□ Abstract Class
+□ Dependency Injection
+□ IoC
+□ UML Basics
+
+--------------------------------
+
+4. DESIGN PATTERNS
+------------------
+
+Creational
+□ Singleton
+□ Factory
+□ Abstract Factory
+□ Builder
+□ Prototype
+
+Structural
+□ Adapter
+□ Decorator
+□ Facade
+□ Proxy
+□ Composite
+□ Bridge
+
+Behavioral
+□ Strategy
+□ Observer
+□ State
+□ Command
+□ Template Method
+□ Chain of Responsibility
+□ Mediator
+□ Iterator
+□ Visitor
+
+--------------------------------
+
+5. LOW LEVEL DESIGN (LLD)
+-------------------------
+
+□ Object Modeling
+□ Class Design
+□ UML
+□ Design Principles
+□ Design Patterns
+
+Practice Problems
+□ Parking Lot
+□ Library System
+□ Movie Booking
+□ Splitwise
+□ Elevator
+□ ATM
+□ Snake & Ladder
+□ Chess
+□ Cricbuzz
+□ Hotel Booking
+
+--------------------------------
+
+6. HIGH LEVEL DESIGN / SYSTEM DESIGN
+------------------------------------
+
+Fundamentals
+□ Scalability
+□ Availability
+□ Reliability
+□ Fault Tolerance
+□ Latency
+□ Throughput
+□ Consistency
+□ CAP Theorem
+□ PACELC
+
+Core Components
+□ API Gateway
+□ Load Balancer
+□ Reverse Proxy
+□ Cache
+□ CDN
+□ Message Queue
+□ Pub/Sub
+□ Event Driven Architecture
+□ Object Storage
+□ Search Engine
+□ Service Discovery
+□ Circuit Breaker
+□ Retry
+□ Rate Limiter
+
+Database Concepts
+□ Replication
+□ Sharding
+□ Partitioning
+□ Read Replicas
+□ Leader-Follower
+□ Multi-Leader
+□ Eventual Consistency
+
+Architecture
+□ Monolith
+□ Microservices
+□ Serverless
+□ Event Driven
+□ CQRS
+□ Saga Pattern
+
+Practice Designs
+□ URL Shortener
+□ Instagram
+□ WhatsApp
+□ Uber
+□ YouTube
+□ Netflix
+□ Twitter/X
+□ Dropbox
+□ Google Drive
+□ Chat Application
+□ Notification Service
+
+--------------------------------
+
+7. CONCURRENCY
+--------------
+
+□ Threads
+□ Locks
+□ Mutex
+□ Semaphore
+□ Atomic Operations
+□ Race Conditions
+□ Deadlocks
+□ Producer Consumer
+□ Reader Writer
+□ Thread Pool
+□ Futures
+□ Async Programming
+
+--------------------------------
+
+8. LANGUAGE MASTERY
+-------------------
+
+(Java / JavaScript / Go / Python)
+
+□ Collections
+□ Memory Model
+□ Exception Handling
+□ Generics
+□ Streams / Iterators
+□ Reflection
+□ Multithreading APIs
+□ Garbage Collection
+
+--------------------------------
+
+9. BACKEND ENGINEERING
+----------------------
+
+□ REST APIs
+□ GraphQL
+□ gRPC
+□ Authentication
+□ Authorization
+□ JWT
+□ OAuth
+□ RBAC
+□ Sessions
+□ Cookies
+□ Validation
+□ Pagination
+□ Filtering
+□ Sorting
+□ File Upload
+□ Logging
+□ Exception Handling
+□ API Versioning
+□ Rate Limiting
+
+--------------------------------
+
+10. GIT
+--------
+
+□ Branches
+□ Merge
+□ Rebase
+□ Cherry Pick
+□ Reset
+□ Revert
+□ Stash
+□ Tags
+□ Pull Requests
+□ Conflict Resolution
+
+--------------------------------
+
+11. TESTING
+-----------
+
+□ Unit Testing
+□ Integration Testing
+□ End-to-End Testing
+□ Mocking
+□ API Testing
+□ Test Coverage
+
+--------------------------------
+
+12. CLOUD
+----------
+
+□ AWS Basics
+□ Azure Basics
+□ GCP Basics
+
+AWS Services
+□ EC2
+□ S3
+□ IAM
+□ RDS
+□ Lambda
+□ CloudFront
+□ VPC
+□ Route53
+□ SQS
+□ SNS
+□ DynamoDB
+
+--------------------------------
+
+13. DEVOPS
+----------
+
+□ Docker
+□ Docker Compose
+□ Kubernetes Basics
+□ CI/CD
+□ GitHub Actions
+□ Jenkins
+□ Nginx
+
+--------------------------------
+
+14. SECURITY
+------------
+
+□ Authentication
+□ Authorization
+□ SQL Injection
+□ XSS
+□ CSRF
+□ SSRF
+□ CORS
+□ HTTPS
+□ JWT Security
+□ Password Hashing
+□ OAuth Security
+□ OWASP Top 10
+
+--------------------------------
+
+15. LINUX
+---------
+
+□ Shell Commands
+□ Permissions
+□ Users
+□ Processes
+□ Networking
+□ grep
+□ awk
+□ sed
+□ ssh
+□ systemd
+□ cron
+□ Logs
+
+--------------------------------
+
+16. WEB FUNDAMENTALS
+--------------------
+
+□ Browser Rendering
+□ Rendering Pipeline
+□ Event Loop
+□ Call Stack
+□ Microtasks
+□ Macrotasks
+□ DOM
+□ BOM
+□ Cookies
+□ Local Storage
+□ Session Storage
+□ Service Workers
+□ Browser Cache
+□ HTTP Lifecycle
+
+--------------------------------
+
+17. PROJECT PREPARATION
+-----------------------
+
+□ Explain Architecture
+□ Explain Database Design
+□ Explain APIs
+□ Explain Authentication
+□ Explain Tradeoffs
+□ Explain Performance Optimizations
+□ Explain Scaling Strategy
+□ Explain Challenges
+□ Explain Future Improvements
+
+--------------------------------
+
+18. BEHAVIORAL INTERVIEW
+------------------------
+
+□ STAR Method
+□ Leadership
+□ Ownership
+□ Conflict Resolution
+□ Teamwork
+□ Communication
+□ Failure Stories
+□ Success Stories
+□ Project Walkthrough
+□ Resume Walkthrough
+
+--------------------------------
+
+19. DEBUGGING & PERFORMANCE
+---------------------------
+
+□ Debugging Strategy
+□ Root Cause Analysis
+□ Logging
+□ Profiling
+□ Memory Leaks
+□ Performance Optimization
+□ Caching Strategies
+□ Monitoring
+
+--------------------------------
+
+20. RESUME & MOCK INTERVIEWS
+----------------------------
+
+□ ATS Resume
+□ LinkedIn
+□ GitHub
+□ Portfolio
+□ Mock Coding Interviews
+□ Mock System Design
+□ Mock Behavioral
+□ Resume Review
+
+
+
+
+
+=============================
+DSA INTERVIEW PATTERN ROADMAP
+(Interview Focused)
+=============================
+
+FOUNDATIONS
+------------
+1. Time & Space Complexity (Big O)
+2. Arrays & Strings
+3. HashMap / HashSet
+4. Stack
+5. Queue
+6. Linked List
+7. Recursion
+8. Binary Search Basics
+9. Trees Basics
+10. Graph Basics
+11. Heap / Priority Queue Basics
+12. Bit Manipulation Basics
+
+CORE PATTERNS
+-------------
+1. Arrays & Hashing
+2. Two Pointers
+3. Sliding Window
+4. Prefix Sum
+5. Difference Array
+6. Binary Search
+7. Binary Search on Answer
+8. Sorting
+9. Intervals
+10. Monotonic Stack
+11. Monotonic Queue (Deque)
+12. Heap / Priority Queue
+
+LINKED LIST PATTERNS
+--------------------
+13. Fast & Slow Pointers
+14. Linked List Reversal
+15. Merge Linked Lists
+
+TREE PATTERNS
+-------------
+16. DFS on Trees
+17. BFS / Level Order Traversal
+18. Binary Search Tree (BST)
+19. Lowest Common Ancestor (LCA)
+20. Tree Construction
+21. Tree Serialization
+
+GRAPH PATTERNS
+--------------
+22. DFS
+23. BFS
+24. Topological Sort
+25. Union-Find (Disjoint Set Union)
+26. Shortest Path (BFS / Dijkstra)
+27. Minimum Spanning Tree (Kruskal / Prim)
+
+BACKTRACKING
+------------
+28. Backtracking
+29. Combinations
+30. Permutations
+31. Subsets
+
+DYNAMIC PROGRAMMING
+-------------------
+32. 1D DP
+33. 2D DP
+34. Knapsack Pattern
+35. Longest Increasing Subsequence (LIS)
+36. Interval DP
+
+GREEDY
+-------
+37. Greedy Algorithms
+
+TRIE
+----
+38. Trie
+
+BIT MANIPULATION
+----------------
+39. Bit Manipulation Patterns
+
+ADVANCED (Optional for Most Interviews)
+---------------------------------------
+40. Segment Tree
+41. Fenwick Tree (Binary Indexed Tree)
+42. Line Sweep
+43. Ordered Set / Balanced BST
+44. Rolling Hash
+45. KMP
+46. Rabin-Karp
+47. Aho-Corasick
+48. Tarjan's Algorithm
+49. Kosaraju's Algorithm
+50. Heavy-Light Decomposition
+51. Euler Tour
+52. Centroid Decomposition
+
+For FAANG/product-company interview preparation, prioritize these 16 patterns first:
+
+1. Arrays & Hashing
+2. Two Pointers
+3. Sliding Window
+4. Prefix Sum
+5. Binary Search
+6. Intervals
+7. Monotonic Stack
+8. Heap / Priority Queue
+9. Linked List
+10. Trees (DFS, BFS, BST)
+11. Graphs (DFS, BFS)
+12. Topological Sort
+13. Union-Find (DSU)
+14. Backtracking
+15. Dynamic Programming (1D & 2D)
+16. Greedy
+
