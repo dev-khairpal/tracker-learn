@@ -1,7 +1,43 @@
-export const ROADMAP_DETAILS: Record<
-	string,
-	{ definition?: string; useCase?: string; detailedMarkdown?: string }
-> = {
+import type { RoadmapDetailMap } from './roadmap-content/types';
+import { DsaFoundationsContent } from './roadmap-content/dsa-foundations';
+import { DsaCorePatternsContent } from './roadmap-content/dsa-core-patterns';
+import { DsaLinkedListTreeContent } from './roadmap-content/dsa-linked-list-tree';
+import { DsaGraphBacktrackingContent } from './roadmap-content/dsa-graph-backtracking';
+import { DsaDpGreedyMiscContent } from './roadmap-content/dsa-dp-greedy-misc';
+import { DsaAdvancedContent } from './roadmap-content/dsa-advanced';
+import { CsOsContent } from './roadmap-content/cs-os';
+import { CsNetworksContent } from './roadmap-content/cs-networks';
+import { CsArchitectureContent } from './roadmap-content/cs-architecture';
+import { DatabasesSqlContent } from './roadmap-content/databases-sql';
+import { DatabasesNosqlDesignContent } from './roadmap-content/databases-nosql-design';
+import { OopContent } from './roadmap-content/oop';
+import { DesignPatternsCreationalContent } from './roadmap-content/design-patterns-creational';
+import { DesignPatternsStructuralContent } from './roadmap-content/design-patterns-structural';
+import { DesignPatternsBehavioralContent } from './roadmap-content/design-patterns-behavioral';
+import { LldContent } from './roadmap-content/lld';
+import { HldFundamentalsComponentsContent } from './roadmap-content/hld-fundamentals-components';
+import { HldDataArchitectureContent } from './roadmap-content/hld-data-architecture';
+import { HldPracticeDesignsContent } from './roadmap-content/hld-practice-designs';
+import { ConcurrencyContent } from './roadmap-content/concurrency';
+import { LanguageMasteryContent } from './roadmap-content/language-mastery';
+import { BackendCoreContent } from './roadmap-content/backend-core';
+import { BackendApiDesignContent } from './roadmap-content/backend-api-design';
+import { GitContent } from './roadmap-content/git';
+import { TestingContent } from './roadmap-content/testing';
+import { CloudContent } from './roadmap-content/cloud';
+import { DevopsContent } from './roadmap-content/devops';
+import { SecurityContent } from './roadmap-content/security';
+import { LinuxContent } from './roadmap-content/linux';
+import { WebFundamentalsContent } from './roadmap-content/web-fundamentals';
+import { ProjectPreparationContent } from './roadmap-content/project-preparation';
+import { BehavioralContent } from './roadmap-content/behavioral';
+import { DebuggingPerformanceContent } from './roadmap-content/debugging-performance';
+import { ResumeMocksContent } from './roadmap-content/resume-mocks';
+
+/** The original hand-written entries. Everything else lives in ./roadmap-content
+ *  as one file per roadmap section, so many topics can be authored in parallel
+ *  without touching the same file. */
+const BASE_DETAILS: RoadmapDetailMap = {
 	'Processes vs Threads': {
 		definition:
 			'A process is an independent program in execution with its own memory space. A thread is a lightweight execution unit within a process that shares the same memory.',
@@ -151,6 +187,29 @@ While indexes dramatically speed up **READ** operations (\`SELECT\`), they come 
 - **Unique Index:** Enforces that no two rows have the same value (e.g., email addresses).
 - **Composite Index:** An index on multiple columns. The order of columns matters! (e.g., Indexing \`A, B\` helps queries filtering by \`A\` or \`A and B\`, but NOT queries filtering only by \`B\`).
 - **Covering Index:** An index that contains all the columns needed for a query, allowing the database to return the result straight from the index without even reading the actual table row from disk.
+
+## Clustered vs. Non-Clustered Index (the classic follow-up)
+This is almost always the next question after "what is an index?" — the distinction is about **where the actual row data lives**, not just how it's looked up.
+
+- **Clustered Index:** The table's rows are **physically stored on disk in the order of this index**. There can only be **one** clustered index per table, because a table's rows can only be physically sorted one way. In most engines (e.g., MySQL InnoDB), the Primary Key *is* the clustered index by default — the leaf nodes of its B-Tree contain the actual row data, not just a pointer to it.
+- **Non-Clustered Index:** A **separate** structure from the table, sorted by the indexed column(s), where each leaf node stores a pointer (or the primary key value) back to the actual row rather than the row itself. A table can have **many** non-clustered indexes. Looking up via a non-clustered index that isn't "covering" means an extra hop: find the pointer in the index, then go fetch the actual row — this second hop is called a "bookmark lookup" or "key lookup," and it's exactly what a **covering index** avoids.
+
+| | Clustered | Non-Clustered |
+|---|---|---|
+| **Rows physically stored in this order?** | Yes | No — a separate structure |
+| **Count per table** | Exactly 1 | Many |
+| **Lookup cost** | Direct — the leaf IS the row | Index leaf → pointer → row (unless covering) |
+
+## B-Tree vs. Hash Index
+Not every index is a B-Tree — some engines also offer **Hash indexes**, and knowing when each wins is a common depth-check.
+
+| | B-Tree | Hash Index |
+|---|---|---|
+| **Equality lookups (\`WHERE x = 5\`)** | O(log N) | O(1) — faster |
+| **Range queries (\`WHERE x > 5\`, \`ORDER BY x\`)** | Supported — the tree is sorted | **Not supported** — a hash has no concept of ordering |
+| **Typical use** | Default choice for almost everything | Niche: pure equality lookups where range queries are never needed (e.g., some in-memory engines) |
+
+Because most real-world queries eventually need range scans, sorting, or partial-match lookups, **B-Trees are the default** in virtually every relational database — Hash indexes are a narrow optimization, not a general-purpose replacement.
 		`
 	},
 	'SOLID Principles': {
@@ -165,28 +224,134 @@ While indexes dramatically speed up **READ** operations (\`SELECT\`), they come 
 
 ## 1. Single Responsibility Principle (SRP)
 *A class should have one, and only one, reason to change.*
-- **Meaning:** A class should only have one job or responsibility. 
+- **Meaning:** A class should only have one job or responsibility.
 - **Example:** A \`User\` class should handle user properties (name, email), but should NOT handle saving the user to the database. That should be done by a \`UserRepository\`.
+
+\`\`\`typescript
+// Violation: User is responsible for both its own data AND persistence AND email formatting.
+class User {
+    constructor(public name: string, public email: string) {}
+    save(): void { /* talks to the database */ }
+    sendWelcomeEmail(): void { /* formats and sends an email */ }
+}
+
+// Fixed: each class has exactly one reason to change.
+class User {
+    constructor(public name: string, public email: string) {}
+}
+class UserRepository {
+    save(user: User): void { /* talks to the database */ }
+}
+class WelcomeEmailer {
+    send(user: User): void { /* formats and sends an email */ }
+}
+\`\`\`
 
 ## 2. Open/Closed Principle (OCP)
 *Software entities should be open for extension, but closed for modification.*
 - **Meaning:** You should be able to add new functionality without changing existing code.
 - **Example:** Instead of having an \`if/else\` block checking the user's role to calculate a discount, you use an interface \`DiscountStrategy\` and create new classes for each role that implement it.
 
+\`\`\`typescript
+// Violation: adding a new customer type means editing this function again.
+function getDiscount(customerType: string, total: number): number {
+    if (customerType === 'regular') return total * 0.95;
+    if (customerType === 'vip') return total * 0.8;
+    // every new tier requires modifying this function
+    return total;
+}
+
+// Fixed: new discount types are added by writing a new class, not editing existing ones.
+interface DiscountStrategy {
+    apply(total: number): number;
+}
+class RegularDiscount implements DiscountStrategy {
+    apply(total: number): number { return total * 0.95; }
+}
+class VipDiscount implements DiscountStrategy {
+    apply(total: number): number { return total * 0.8; }
+}
+\`\`\`
+
 ## 3. Liskov Substitution Principle (LSP)
 *Objects in a program should be replaceable with instances of their subtypes without altering the correctness of that program.*
 - **Meaning:** If Class B is a child of Class A, you should be able to use Class B anywhere Class A is expected, without things breaking.
 - **Classic Violation:** A \`Square\` inheriting from a \`Rectangle\`. If a program expects a \`Rectangle\` and sets the width to 5 and height to 10, a \`Square\` would break this expectation because its width and height must always be equal.
 
+\`\`\`typescript
+class Rectangle {
+    constructor(protected width: number, protected height: number) {}
+    setWidth(w: number) { this.width = w; }
+    setHeight(h: number) { this.height = h; }
+    area(): number { return this.width * this.height; }
+}
+
+// Violation: Square silently changes both dimensions, breaking caller assumptions.
+class Square extends Rectangle {
+    setWidth(w: number) { this.width = w; this.height = w; }
+    setHeight(h: number) { this.width = h; this.height = h; }
+}
+
+function test(rect: Rectangle) {
+    rect.setWidth(5);
+    rect.setHeight(10);
+    console.log(rect.area()); // expected 50 — a Square silently returns 100 instead
+}
+\`\`\`
+
 ## 4. Interface Segregation Principle (ISP)
 *Many client-specific interfaces are better than one general-purpose interface.*
-- **Meaning:** Don't force a class to implement methods it doesn't need. 
+- **Meaning:** Don't force a class to implement methods it doesn't need.
 - **Example:** Instead of a massive \`Worker\` interface with \`code()\`, \`test()\`, and \`manage()\`, split it into \`Coder\`, \`Tester\`, and \`Manager\` interfaces.
+
+\`\`\`typescript
+// Violation: an Intern has to implement manage(), which makes no sense for it.
+interface Worker {
+    code(): void;
+    test(): void;
+    manage(): void;
+}
+
+// Fixed: implement only the interfaces that are actually relevant.
+interface Coder { code(): void; }
+interface Tester { test(): void; }
+interface Manager { manage(): void; }
+
+class Intern implements Coder, Tester {
+    code(): void { /* ... */ }
+    test(): void { /* ... */ }
+}
+\`\`\`
 
 ## 5. Dependency Inversion Principle (DIP)
 *Depend upon abstractions, not concretions.*
 - **Meaning:** High-level modules should not depend on low-level modules. Both should depend on abstractions (interfaces).
 - **Example:** A \`PaymentProcessor\` should not instantiate a \`StripeAPI\` directly. Instead, it should accept an \`PaymentGateway\` interface in its constructor.
+
+\`\`\`typescript
+// Violation: PaymentProcessor is hard-wired to Stripe — swapping providers means editing this class.
+class PaymentProcessor {
+    private gateway = new StripeAPI();
+    charge(amount: number) { this.gateway.charge(amount); }
+}
+
+// Fixed: PaymentProcessor depends on an abstraction, injected from outside.
+interface PaymentGateway {
+    charge(amount: number): void;
+}
+class PaymentProcessor {
+    constructor(private gateway: PaymentGateway) {}
+    charge(amount: number) { this.gateway.charge(amount); }
+}
+// Swapping Stripe for PayPal now requires zero changes to PaymentProcessor.
+const processor = new PaymentProcessor(new StripeAPI());
+\`\`\`
+
+## When SOLID Is Over-Applied
+SOLID is a set of heuristics, not laws — interviewers increasingly ask about the *downside* of applying them too aggressively:
+- **DIP/ISP taken too far:** wrapping every single class in its own interface "just in case," even when there's only ever one implementation, adds a layer of indirection with no real payoff — more files to open, more jumps to trace a call, for a flexibility that's never used.
+- **SRP taken too far:** splitting a class into so many tiny single-method classes that the actual business logic gets scattered across a dozen files, making the overall flow harder to follow than a single, moderately-sized class would have been.
+- **The rule of thumb:** apply SOLID where change is actually likely (multiple payment providers, multiple discount rules) — not preemptively everywhere. A senior-level answer to "is this code SOLID?" often includes "...and here's where I'd stop applying it."
 		`
 	},
 	Encapsulation: {
@@ -245,6 +410,13 @@ public class BankAccount {
 \`\`\`
 
 If \`balance\` was \`public\`, any part of the program could do \`account.balance = -99999;\`, which would break the business logic of the banking application.
+
+## Encapsulation vs. Abstraction (the near-universal follow-up)
+These two are constantly confused because both "hide" something — but they hide different things, at different levels:
+- **Abstraction** hides **complexity** by exposing only the essential *behavior*, at the design level. It's about *what* a thing does. Example: a \`PaymentGateway\` interface exposes \`charge(amount)\` — the caller doesn't know or care whether it's Stripe, PayPal, or a bank API underneath.
+- **Encapsulation** hides **internal state** by controlling access to *data*, at the implementation level. It's about *how* a thing protects itself. Example: \`BankAccount\` makes \`balance\` private and only lets you change it through \`deposit()\`/\`withdraw()\`.
+
+A useful way to hold both at once: **abstraction is a design choice** (decide what to expose through an interface), while **encapsulation is the implementation mechanism** that enforces it (\`private\` fields, getters/setters with validation). You can have one without the other — a class can encapsulate its fields (private + getters) while still exposing an overly detailed, non-abstract interface; and an interface can be a clean abstraction even if the concrete class behind it doesn't encapsulate much internally. In practice, well-designed OOP code uses both together: abstraction decides the public shape, encapsulation locks down everything else.
 		`
 	},
 	Polymorphism: {
@@ -304,139 +476,6 @@ animals.forEach(animal => animal.makeSound());
 
 ## Why is it useful?
 Polymorphism drastically reduces coupling and eliminates the need for massive \`switch\` or \`if/else\` statements checking an object's type before calling a function. It allows systems to be easily extensible.
-		`
-	},
-	Singleton: {
-		definition:
-			'A creational design pattern that ensures a class has only one instance, while providing a global point of access to this instance.',
-		useCase:
-			'Managing a single shared Database Connection Pool or a configuration manager for an entire application.',
-		detailedMarkdown: `
-# Singleton Pattern
-
-The **Singleton** is a creational design pattern that solves two problems at once:
-1. **Ensures that a class has just a single instance.**
-2. **Provides a global access point to that instance.**
-
-## Real-world Analogy
-The government is an excellent example of the Singleton pattern. A country can have only one official government. Regardless of the personal identities of the individuals who form governments, the title "The Government of X" is a global point of access that identifies the group of people in charge.
-
-## How to implement it
-To create a Singleton, you generally need:
-1. A private constructor to prevent direct instantiation with the \`new\` keyword.
-2. A private static variable that holds the single instance of the class.
-3. A public static method that returns the instance (creating it if it doesn't exist yet).
-
-## Code Example (Java)
-
-Here is a thread-safe implementation of a Singleton in Java using "Double-Checked Locking".
-
-\`\`\`java
-public class Database {
-    // The volatile keyword ensures visibility of changes to variables across threads
-    private static volatile Database instance;
-
-    // Private constructor prevents instantiation from other classes
-    private Database() {
-        // Initialization code (e.g., connect to database server)
-    }
-
-    public static Database getInstance() {
-        // First check (no locking) - extremely fast
-        if (instance == null) {
-            // Locking block - only executed once when the instance is created
-            synchronized (Database.class) {
-                // Second check (inside lock) - ensures thread safety
-                if (instance == null) {
-                    instance = new Database();
-                }
-            }
-        }
-        return instance;
-    }
-    
-    public void query(String sql) {
-        System.out.println("Executing: " + sql);
-    }
-}
-\`\`\`
-
-## The Downside
-Singletons are often considered an **anti-pattern** by modern developers because they introduce global state into an application, which makes code tightly coupled and extremely difficult to unit test. In modern applications, Dependency Injection (DI) frameworks are used instead to manage single instances of classes.
-		`
-	},
-	Strategy: {
-		definition:
-			'A behavioral design pattern that lets you define a family of algorithms, put each of them into a separate class, and make their objects interchangeable.',
-		useCase:
-			'Implementing different sorting algorithms (QuickSort, MergeSort) or different payment methods (Credit Card, PayPal, Crypto) without modifying the core checkout code.',
-		detailedMarkdown: `
-# Strategy Pattern
-
-The **Strategy** pattern is a behavioral design pattern that allows you to define a family of algorithms, encapsulate each one as an object, and make them interchangeable at runtime. 
-
-It allows the algorithm to vary independently from the clients that use it.
-
-## The Problem
-Imagine you are building an e-commerce application. Initially, you only support Credit Card payments. Later, you add PayPal. Then, you add Apple Pay. If you write all this logic in the \`Checkout\` class using massive \`if/else\` or \`switch\` statements, your \`Checkout\` class becomes a bloated, fragile "God Class" that violates the Open/Closed Principle.
-
-## The Solution
-The Strategy pattern suggests that you take a class that does something specific in a lot of different ways and extract all of these algorithms into separate classes called strategies.
-
-## Code Example (TypeScript / JavaScript)
-
-\`\`\`typescript
-// 1. Define the Strategy Interface
-interface PaymentStrategy {
-    pay(amount: number): void;
-}
-
-// 2. Implement Concrete Strategies
-class CreditCardPayment implements PaymentStrategy {
-    pay(amount: number): void {
-        console.log(\`Paid \${amount} using Credit Card.\`);
-    }
-}
-
-class PayPalPayment implements PaymentStrategy {
-    pay(amount: number): void {
-        console.log(\`Paid \${amount} using PayPal.\`);
-    }
-}
-
-// 3. The Context Class
-class ShoppingCart {
-    private paymentStrategy: PaymentStrategy;
-
-    // The strategy is injected into the context
-    constructor(strategy: PaymentStrategy) {
-        this.paymentStrategy = strategy;
-    }
-
-    // You can also change the strategy at runtime
-    setPaymentStrategy(strategy: PaymentStrategy) {
-        this.paymentStrategy = strategy;
-    }
-
-    checkout(amount: number) {
-        // The context delegates the work to the strategy object
-        this.paymentStrategy.pay(amount);
-    }
-}
-
-// --- Usage ---
-const cart = new ShoppingCart(new CreditCardPayment());
-cart.checkout(100); // Outputs: Paid 100 using Credit Card.
-
-// Switch strategy at runtime!
-cart.setPaymentStrategy(new PayPalPayment());
-cart.checkout(50);  // Outputs: Paid 50 using PayPal.
-\`\`\`
-
-## When to use it?
-- When you have a lot of similar classes that only differ in the way they execute some behavior.
-- To isolate the business logic of a class from the implementation details of algorithms.
-- To replace massive conditionals (\`if/else\`) with polymorphic method calls.
 		`
 	},
 	Mutex: {
@@ -564,6 +603,55 @@ public class DeadlockExample {
 }
 \`\`\`
 If \`methodA\` and \`methodB\` are called by two different threads at the same time, the program will freeze permanently.
+
+## Detection and Recovery (when prevention isn't enough)
+Lock ordering *prevents* deadlocks, but in a large system with many code paths, you can't always guarantee every thread acquires locks in the same order — so production systems also need ways to deal with a deadlock that has already happened:
+- **Detection — Wait-For Graphs:** the OS or database builds a graph where each thread/transaction is a node, and a directed edge means "this thread is waiting on a resource held by that thread." A deadlock exists if, and only if, this graph contains a **cycle**. Databases run this check periodically (or on every lock acquisition) precisely so they can catch cycles before they freeze the whole system.
+- **Detection — Timeouts:** a simpler, cruder approach: if a thread has been waiting for a lock longer than some threshold, assume it's deadlocked (even without proving a cycle exists) and abort it. This is what most databases' \`lock_timeout\` settings do — cheaper to check than a full wait-for graph, at the cost of occasionally aborting a transaction that was just slow, not actually deadlocked.
+- **Recovery:** once a deadlock is detected, the only way out is to break the cycle — pick a "victim" thread/transaction (often the one that's done the least work, or the one that started most recently) and forcibly abort/roll it back, releasing its locks so the others can proceed. This is exactly what you saw earlier in the *Locks* topic: the database aborts one transaction with an error, and the application must be ready to catch that and retry.
+
+## Deadlock vs. Livelock
+Both are ways concurrent execution can fail to make progress, but they look very different if you attach a debugger:
+- **Deadlock:** threads are **blocked and idle** — CPU usage drops, nothing is executing, everyone is simply waiting.
+- **Livelock:** threads are **actively running** but still never make progress — e.g., two threads that each detect a potential conflict and both "politely" back off and retry at the same time, over and over, forever (like two people in a hallway repeatedly stepping the same direction to let the other pass). CPU usage stays high, but no useful work gets done. Livelock is often introduced by *naive* deadlock-avoidance logic — e.g., "if I can't get both locks, release what I have and retry immediately" without any randomized backoff, which can cause every thread to retry in lockstep forever.
 		`
 	}
+};
+
+export const ROADMAP_DETAILS: RoadmapDetailMap = {
+	...BASE_DETAILS,
+	...DsaFoundationsContent,
+	...DsaCorePatternsContent,
+	...DsaLinkedListTreeContent,
+	...DsaGraphBacktrackingContent,
+	...DsaDpGreedyMiscContent,
+	...DsaAdvancedContent,
+	...CsOsContent,
+	...CsNetworksContent,
+	...CsArchitectureContent,
+	...DatabasesSqlContent,
+	...DatabasesNosqlDesignContent,
+	...OopContent,
+	...DesignPatternsCreationalContent,
+	...DesignPatternsStructuralContent,
+	...DesignPatternsBehavioralContent,
+	...LldContent,
+	...HldFundamentalsComponentsContent,
+	...HldDataArchitectureContent,
+	...HldPracticeDesignsContent,
+	...ConcurrencyContent,
+	...LanguageMasteryContent,
+	...BackendCoreContent,
+	...BackendApiDesignContent,
+	...GitContent,
+	...TestingContent,
+	...CloudContent,
+	...DevopsContent,
+	...SecurityContent,
+	...LinuxContent,
+	...WebFundamentalsContent,
+	...ProjectPreparationContent,
+	...BehavioralContent,
+	...DebuggingPerformanceContent,
+	...ResumeMocksContent
 };

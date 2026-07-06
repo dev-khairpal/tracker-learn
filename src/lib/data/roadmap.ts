@@ -31,6 +31,93 @@ function subsection(
 
 export const ROADMAP_CATEGORIES: RoadmapCategory[] = [
 	{
+		id: 'dsa-patterns',
+		name: 'DSA Interview Patterns',
+		icon: '🧮',
+		subsections: [
+			subsection('dsa-patterns', 0, 'Foundations', [
+				'Time & Space Complexity (Big O)',
+				'Arrays & Strings',
+				'HashMap / HashSet',
+				'Stack',
+				'Queue',
+				'Linked List',
+				'Recursion',
+				'Binary Search Basics',
+				'Trees Basics',
+				'Graph Basics',
+				'Heap / Priority Queue Basics',
+				'Bit Manipulation Basics'
+			]),
+			subsection('dsa-patterns', 1, 'Core Patterns', [
+				'Arrays & Hashing',
+				'Two Pointers',
+				'Sliding Window',
+				'Prefix Sum',
+				'Difference Array',
+				'Binary Search',
+				'Binary Search on Answer',
+				'Sorting Algorithms',
+				'Intervals',
+				'Monotonic Stack',
+				'Monotonic Queue (Deque)',
+				'Heap / Priority Queue'
+			]),
+			subsection('dsa-patterns', 2, 'Linked List Patterns', [
+				'Fast & Slow Pointers',
+				'Linked List Reversal',
+				'Merge Linked Lists'
+			]),
+			subsection('dsa-patterns', 3, 'Tree Patterns', [
+				'DFS on Trees',
+				'BFS / Level Order Traversal',
+				'Binary Search Tree (BST)',
+				'Lowest Common Ancestor (LCA)',
+				'Tree Construction',
+				'Tree Serialization'
+			]),
+			subsection('dsa-patterns', 4, 'Graph Patterns', [
+				'DFS',
+				'BFS',
+				'Topological Sort',
+				'Union-Find (Disjoint Set Union)',
+				'Shortest Path (BFS / Dijkstra)',
+				'Minimum Spanning Tree (Kruskal / Prim)'
+			]),
+			subsection('dsa-patterns', 5, 'Backtracking', [
+				'Backtracking',
+				'Combinations',
+				'Permutations',
+				'Subsets'
+			]),
+			subsection('dsa-patterns', 6, 'Dynamic Programming', [
+				'1D DP',
+				'2D DP',
+				'Knapsack Pattern',
+				'Longest Increasing Subsequence (LIS)',
+				'Interval DP'
+			]),
+			subsection('dsa-patterns', 7, 'Greedy', ['Greedy Algorithms']),
+			subsection('dsa-patterns', 8, 'Trie', ['Trie']),
+			subsection('dsa-patterns', 9, 'Bit Manipulation', ['Bit Manipulation Patterns']),
+			subsection('dsa-patterns', 10, 'Advanced (Optional)', [
+				'Segment Tree',
+				'Fenwick Tree (Binary Indexed Tree)',
+				'Line Sweep',
+				'Ordered Set / Balanced BST',
+				'Rolling Hash',
+				'KMP',
+				'Rabin-Karp',
+				'Aho-Corasick',
+				"Tarjan's Algorithm",
+				"Kosaraju's Algorithm",
+				'Heavy-Light Decomposition',
+				'Euler Tour',
+				'Centroid Decomposition'
+			])
+		]
+	},
+	{
 		id: 'cs-fundamentals',
 		name: 'Computer Science Fundamentals',
 		icon: '🖥️',
@@ -247,9 +334,9 @@ export const ROADMAP_CATEGORIES: RoadmapCategory[] = [
 				'Rate Limiter'
 			]),
 			subsection('hld', 2, 'Database Concepts', [
-				'Replication',
-				'Sharding',
-				'Partitioning',
+				'Replication (System Design)',
+				'Sharding (System Design)',
+				'Partitioning (System Design)',
 				'Read Replicas',
 				'Leader-Follower',
 				'Multi-Leader',
