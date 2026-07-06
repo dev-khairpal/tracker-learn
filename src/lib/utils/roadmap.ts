@@ -39,3 +39,42 @@ export function overallRoadmapStats(categories: RoadmapCategory[]): {
 	});
 	return { total, done };
 }
+
+export interface FlatOrderedItem {
+	id: string;
+	label: string;
+	categoryId: string;
+	categoryName: string;
+	categoryIcon: string;
+	groupName?: string;
+}
+
+/** Reading order across the entire roadmap: category by category, top-level
+ *  items then subsections, in the order they're declared in roadmap.ts. */
+export function flattenAllRoadmapItems(categories: RoadmapCategory[]): FlatOrderedItem[] {
+	const out: FlatOrderedItem[] = [];
+	for (const cat of categories) {
+		for (const item of cat.items ?? []) {
+			out.push({
+				id: item.id,
+				label: item.label,
+				categoryId: cat.id,
+				categoryName: cat.name,
+				categoryIcon: cat.icon
+			});
+		}
+		for (const sub of cat.subsections ?? []) {
+			for (const item of sub.items) {
+				out.push({
+					id: item.id,
+					label: item.label,
+					categoryId: cat.id,
+					categoryName: cat.name,
+					categoryIcon: cat.icon,
+					groupName: sub.name
+				});
+			}
+		}
+	}
+	return out;
+}
