@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { marked } from 'marked';
 	import Icon from '$lib/components/layout/Icon.svelte';
+	import BrandIcon from '$lib/components/layout/BrandIcon.svelte';
 	import { appState } from '$lib/stores/state.svelte';
 
 	let { data } = $props();
 	let item = $derived(data.item);
 	let categoryName = $derived(data.categoryName);
 	let categoryIcon = $derived(data.categoryIcon);
+	let categoryBrandIcon = $derived(data.categoryBrandIcon);
 	let groupName = $derived(data.groupName);
 	let prev = $derived(data.prev);
 	let next = $derived(data.next);
@@ -33,7 +35,11 @@
 		</a>
 		<span class="text-outline-variant">/</span>
 		<span class="flex items-center gap-1 shrink-0">
-			<span>{categoryIcon}</span>{categoryName}
+			{#if categoryBrandIcon}
+				<BrandIcon name={categoryBrandIcon} class="h-4 w-4" />
+			{:else}
+				<span>{categoryIcon}</span>
+			{/if}{categoryName}
 		</span>
 		{#if groupName}
 			<span class="text-outline-variant">/</span>

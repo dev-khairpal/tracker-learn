@@ -1,3 +1,5 @@
+import type { BrandIconName } from '$lib/utils/brand-icon';
+
 export interface RoadmapItem {
 	id: string;
 	label: string;
@@ -16,6 +18,7 @@ export interface RoadmapCategory {
 	id: string;
 	name: string;
 	icon: string;
+	brandIcon?: BrandIconName;
 	subsections?: RoadmapSubsection[];
 	items?: RoadmapItem[];
 }

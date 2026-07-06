@@ -1,13 +1,18 @@
 import { error } from '@sveltejs/kit';
 import { ROADMAP_CATEGORIES } from '$lib/data/roadmap';
 import { flattenAllRoadmapItems } from '$lib/utils/roadmap';
-import type { RoadmapItem } from '$lib/types/roadmap';
+import type { RoadmapCategory, RoadmapItem } from '$lib/types/roadmap';
+
+export function entries() {
+	return flattenAllRoadmapItems(ROADMAP_CATEGORIES).map((item) => ({ id: item.id }));
+}
 
 export function load({ params }) {
 	const id = params.id;
 	let foundItem: RoadmapItem | null = null;
 	let categoryName: string | null = null;
 	let categoryIcon: string | null = null;
+	let categoryBrandIcon: RoadmapCategory['brandIcon'] = undefined;
 
 	for (const cat of ROADMAP_CATEGORIES) {
 		const items = cat.items || [];
@@ -19,6 +24,7 @@ export function load({ params }) {
 			foundItem = match;
 			categoryName = cat.name;
 			categoryIcon = cat.icon;
+			categoryBrandIcon = cat.brandIcon;
 			break;
 		}
 	}
@@ -37,6 +43,7 @@ export function load({ params }) {
 		item: foundItem,
 		categoryName,
 		categoryIcon,
+		categoryBrandIcon,
 		groupName,
 		prev,
 		next,

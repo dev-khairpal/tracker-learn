@@ -388,6 +388,7 @@ export const ROADMAP_CATEGORIES: RoadmapCategory[] = [
 		id: 'language-mastery',
 		name: 'Language Mastery',
 		icon: '📚',
+		brandIcon: 'openjdk',
 		items: items('language-mastery', [
 			'Collections',
 			'Memory Model',
@@ -429,6 +430,7 @@ export const ROADMAP_CATEGORIES: RoadmapCategory[] = [
 		id: 'git',
 		name: 'Git',
 		icon: '🌿',
+		brandIcon: 'git',
 		items: items('git', [
 			'Branches',
 			'Merge',
@@ -480,6 +482,7 @@ export const ROADMAP_CATEGORIES: RoadmapCategory[] = [
 		id: 'devops',
 		name: 'DevOps',
 		icon: '🐳',
+		brandIcon: 'docker',
 		items: items('devops', [
 			'Docker',
 			'Docker Compose',
@@ -513,6 +516,7 @@ export const ROADMAP_CATEGORIES: RoadmapCategory[] = [
 		id: 'linux',
 		name: 'Linux',
 		icon: '🐧',
+		brandIcon: 'linux',
 		items: items('linux', [
 			'Shell Commands',
 			'Permissions',

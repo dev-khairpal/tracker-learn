@@ -5,6 +5,7 @@ export const TOPICS: Topic[] = [
 		id: 'java-collections',
 		name: 'Java Collections & Fundamentals',
 		icon: '☕',
+		brandIcon: 'openjdk',
 		phase: 0,
 		concepts: ['Core Collections API', 'HashMap Internals', 'Comparator/Comparable', 'Iterators'],
 		problems: [

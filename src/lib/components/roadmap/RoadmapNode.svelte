@@ -3,6 +3,7 @@
 	import { roadmapCategoryStats } from '$lib/utils/roadmap';
 	import RoadmapItemRow from './RoadmapItemRow.svelte';
 	import Icon from '../layout/Icon.svelte';
+	import BrandIcon from '../layout/BrandIcon.svelte';
 
 	let { category, index, isLast }: { category: RoadmapCategory; index: number; isLast: boolean } =
 		$props();
@@ -35,6 +36,8 @@
 	>
 		{#if isDone}
 			<Icon name="check" class="h-5 w-5" />
+		{:else if category.brandIcon}
+			<BrandIcon name={category.brandIcon} class="h-5 w-5" />
 		{:else}
 			<span class="text-lg">{category.icon}</span>
 		{/if}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Topic } from '$lib/types/dsa';
 	import Icon from '../layout/Icon.svelte';
+	import BrandIcon from '../layout/BrandIcon.svelte';
 	import { topicStats } from '$lib/utils/problems';
 	import TopicDetailPane from './TopicDetailPane.svelte';
 
@@ -44,7 +45,11 @@
 			? 'ring-primary text-primary glow-primary'
 			: 'ring-outline-variant text-on-surface-variant'} transition-all duration-500"
 	>
-		<span class="text-xl">{topic.icon}</span>
+		{#if topic.brandIcon}
+			<BrandIcon name={topic.brandIcon} class="h-6 w-6" />
+		{:else}
+			<span class="text-xl">{topic.icon}</span>
+		{/if}
 	</div>
 
 	<!-- Card Content -->

@@ -1,9 +1,12 @@
+import type { BrandIconName } from '$lib/utils/brand-icon';
+
 export type Difficulty = 'E' | 'M' | 'H';
 
 export interface Topic {
 	id: string;
 	name: string;
 	icon: string;
+	brandIcon?: BrandIconName;
 	phase: number;
 	concepts: string[];
 	problems: [string, Difficulty][];
